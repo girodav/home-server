@@ -56,11 +56,6 @@
 # Logging snippet
 (access_log) {
     log {
-        output file /var/log/caddy/{args[0]}.log {
-            roll_size 100mb
-            roll_keep 5
-            roll_keep_for 720h
-        }
         format json
         level INFO
     }

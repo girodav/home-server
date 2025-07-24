@@ -21,7 +21,6 @@ services:
   jellyfin:
     container_name: jellyfin
     restart: unless-stopped
-    user: "1000:1000"
     group_add:
       - "105" # add to the render group for transcoding
     devices:
@@ -48,7 +47,6 @@ services:
       - pnpm
       - start
     container_name: jellyseerr
-    user: "1000:1000"
     image: fallenbagel/jellyseerr:2.7.2@sha256:98296861cf3caebe8ada72e5dbe2729fb10cdb2042d2b82e86065bf870418587
     ports:
       - 5055:5055/tcp
