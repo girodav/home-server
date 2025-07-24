@@ -34,7 +34,7 @@ services:
       - --path.rootfs=/host
     restart: unless-stopped
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:v0.52.0@sha256:505e2c61e74e5d5eae522d01e2e971e91b793bc405270315a64da806ba033640
+    image: gcr.io/cadvisor/cadvisor:v0.52.1@sha256:f40e65878e25c2e78ea037f73a449527a0fb994e303dc3e34cb6b187b4b91435
     container_name: cadvisor
     restart: unless-stopped
     ports:
