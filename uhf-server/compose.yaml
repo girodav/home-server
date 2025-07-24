@@ -1,0 +1,48 @@
+# test
+services:
+  uhf-server:
+    image: solidpixel/uhf-server:uhf-1.4.0-ffmpeg7.1.1-d1
+    container_name: uhf-server
+    restart: unless-stopped
+    network_mode: bridge
+    volumes:
+      # Persist recordings and database
+      - /nvme/docker_appdata/uhf-server:/var/lib/uhf-server
+      # OPTIONAL: store recordings in a different location
+      # Uncomment the line below IN ADDITION to the one above
+      # This overrides only /recordings inside the container
+      - /tank/data/media/dvr:/var/lib/uhf-server/recordings
+
+    ports:
+      - 5678:8000 # <HOST>:<CONTAINER>
+    # Optional container environment config
+    environment:
+      - ENABLE_COMMERCIAL_DETECTION=false # set true for commercial detection
+      # Uncomment below to customize internal container settings (usually not needed)
+      # - PASSWORD=your_password_here
+      # - API_HOST=0.0.0.0
+      # - API_PORT=8000
+      # - RECORDINGS_DIR=/var/lib/uhf-server/recordings
+      # - DB_PATH=/var/lib/uhf-server/db.json
+      # - LOG_LEVEL=INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+      # Command with conditional flags
+      # !!! Do not modify this unless you know what you're doing !!!
+    command:
+      - sh
+      - -c
+      - |
+        exec uhf-server \
+          $${ENABLE_COMMERCIAL_DETECTION:+--enable-commercial-detection} \
+          $${PASSWORD:+--password "$$PASSWORD"}
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - -f
+        - http://localhost:8000/server/stats
+        # update URL if API_PORT changes
+      interval: 30s
+      timeout: 5s
+      retries: 3
+networks: {}

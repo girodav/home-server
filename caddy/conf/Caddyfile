@@ -1,0 +1,140 @@
+{
+    admin off
+    # Email for Let's Encrypt (required)
+    email "{env.LETS_ENCRYPT_EMAIL}"
+    # Use Cloudflare as the DNS provider
+    acme_dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    
+    # Global server configuration
+    servers {
+        protocols h1 h2 h3
+        client_ip_headers X-Forwarded-For X-Real-IP
+        # Allow the following IP to passthrough the "X-Forwarded-*" headers
+        # https://caddyserver.com/docs/caddyfile/options#trusted-proxies
+        trusted_proxies static private_ranges
+        trusted_proxies_strict
+    }
+    
+    # Optional: Enable debug mode for troubleshooting
+    # debug
+}
+
+# Security and performance snippets
+(security_headers) {
+    header {
+        # CSP (https://content-security-policy.com)
+        Content-Security-Policy "upgrade-insecure-requests; default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; form-action 'self' https:; font-src 'self'; frame-ancestors 'self'; base-uri 'self'; connect-src 'self'; img-src * data:; frame-src https:;"
+        # Disable browser features
+        Permissions-Policy "accelerometer=(),camera=(),geolocation=(),gyroscope=(),magnetometer=(),microphone=(),payment=(),usb=()"
+        # Only allow same-origin requests
+        Referrer-Policy "same-origin"
+        # Prevent MIME type sniffing from the declared Content-Type
+        X-Content-Type-Options "nosniff"
+        # Comment header to allow indexing by search engines
+        X-Robots-Tag "noindex, nofollow, noarchive, nositelinkssearchbox, nosnippet, notranslate, noimageindex"
+        # Remove "Server" header
+        -Server
+    }
+}
+
+(performance) {
+    encode zstd gzip
+    
+    # Cache policy
+    @static {
+        path *.css *.js *.png *.jpg *.jpeg *.gif *.ico *.svg *.woff *.woff2 *.ttf *.eot
+    }
+    @imageproxy {
+        path /imageproxy/*
+    }
+    
+    header Cache-Control "no-cache"
+    header @static Cache-Control "public, max-age=30, stale-while-revalidate=60"
+    header @imageproxy Cache-Control "public, max-age=3600"
+}
+
+# Logging snippet
+(access_log) {
+    log {
+        output file /var/log/caddy/{args[0]}.log {
+            roll_size 100mb
+            roll_keep 5
+            roll_keep_for 720h
+        }
+        format json
+        level INFO
+    }
+}
+
+# Main domain
+{env.DOMAIN} {
+    import access_log "main"
+    import security_headers
+    import performance
+    
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    
+    # Main site handler
+    handle {
+        respond "Welcome to {env.DOMAIN}" 200
+    }
+}
+
+# Wildcard subdomain
+*.{env.DOMAIN} {
+    import access_log "wildcard"
+    import security_headers
+    import performance
+    
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+    
+    # Handle different subdomains
+    @jellyfin host jellyfin.{env.DOMAIN}
+    handle @jellyfin {
+        reverse_proxy jellyfin:8096
+    }
+    
+    @jellyseer host jellyseerr.{env.DOMAIN}
+    handle @jellyseer {
+        reverse_proxy jellyseerr:5055
+    }
+    
+    @radarr host radarr.{env.DOMAIN}
+    handle @radarr {
+        reverse_proxy radarr:7878
+    }
+    
+    @sonarr host sonarr.{env.DOMAIN}
+    handle @sonarr {
+        reverse_proxy sonarr:8989
+    }
+    
+    @prowlarr host prowlarr.{env.DOMAIN}
+    handle @prowlarr {
+        reverse_proxy prowlarr:9696
+    }
+    
+    @sabnzbd host sabnzbd.{env.DOMAIN}
+    handle @sabnzbd {
+        reverse_proxy sabnzbd:8080
+    }
+    
+    @notifiarr host notifiarr.{env.DOMAIN}
+    handle @notifiarr {
+        reverse_proxy notifiarr:5454
+    }
+    
+    @paperless host paperless.{env.DOMAIN}
+    handle @paperless {
+        reverse_proxy paperless:8000
+    }
+    
+    # Default handler for other subdomains
+    handle {
+        respond "Subdomain not configured" 404
+    }
+}

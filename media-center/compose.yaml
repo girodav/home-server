@@ -1,0 +1,115 @@
+networks:
+  caddy:
+    external: true
+services:
+  notifiarr:
+    container_name: notifiarr
+    restart: unless-stopped
+    user: "1000:1000"
+    entrypoint:
+      - /notifiarr
+    image: golift/notifiarr:0.8.3
+    networks:
+      - caddy
+    ports:
+      - 5454:5454/tcp
+    volumes:
+      - /etc/machine-id:/etc/machine-id:ro
+      - /tank:/storage/1:ro
+      - /nvme/docker_appdata/Notifiarr:/config
+      - /var/run/utmp:/var/run/utmp:ro
+  jellyfin:
+    container_name: jellyfin
+    restart: unless-stopped
+    user: "1000:1000"
+    group_add:
+      - "105" # add to the render group for transcoding
+    devices:
+      - /dev/dri:/dev/dri
+    image: ghcr.io/jellyfin/jellyfin:10.10
+    ports:
+      - 1900:1900/udp
+      - 7359:7359/udp
+      - 8096:8096/tcp
+      - 8920:8920/tcp
+    environment:
+      - JELLYFIN_DATA_DIR=/config/data
+      - JELLYFIN_CONFIG_DIR=/config
+      - JELLYFIN_LOG_DIR=/config/log
+      - JELLYFIN_CACHE_DIR=/config/cache
+      - TZ=Europe/Dublin
+    volumes:
+      - /nvme/docker_appdata/jellyfin:/config
+      - /tank/data/media:/data/media
+    networks:
+      - caddy
+  jellyseerr:
+    command:
+      - pnpm
+      - start
+    container_name: jellyseerr
+    user: "1000:1000"
+    image: fallenbagel/jellyseerr:2.7.2@sha256:c93519dfbfe0d516b653f9a721cb1d610cd9c89eab35ffa1a5e303f93857f9bc
+    ports:
+      - 5055:5055/tcp
+    restart: unless-stopped
+    networks:
+      - caddy
+    volumes:
+      - /nvme/docker_appdata/jellyseerr:/app/config
+  prowlarr:
+    container_name: prowlarr
+    restart: unless-stopped
+    image: ghcr.io/home-operations/prowlarr:rolling@sha256:30062fde00bf3901770d02e4e255b3fa1afa320ae2ff5359473ff7599be7ebc8
+    user: "1000:1000"
+    ports:
+      - 9696:9696/tcp
+    volumes:
+      - /nvme/docker_appdata/prowlarr:/config
+    networks:
+      - caddy
+    environment:
+      - TZ=Europe/Dublin
+  radarr:
+    container_name: radarr
+    restart: unless-stopped
+    image: ghcr.io/home-operations/radarr:rolling@sha256:aa84b8341e2b53281bcea4696427861e4ab02ab004cd76a1b3a76d77ea065ac5
+    user: "1000:1000"
+    ports:
+      - 7878:7878/tcp
+    volumes:
+      - /nvme/docker_appdata/radarr:/config
+      - /tank/data:/data
+    networks:
+      - caddy
+    environment:
+      - TZ=Europe/Dublin
+  sabnzbd:
+    container_name: sabnzbd
+    image: ghcr.io/home-operations/sabnzbd:rolling@sha256:e3f27e50ee51f950d89ce888cb3c3c4e74b46b42751333ee008f906906cbf05b
+    user: "1000:1000"
+    restart: unless-stopped
+    ports:
+      - 8080:8080/tcp
+    volumes:
+      - /nvme/docker_appdata/sabnzbd:/config
+      - /nvme/docker_appdata/sabnzbd/incomplete:/data/usenet/incomplete
+      - /tank/data/usenet:/data/usenet
+    networks:
+      - caddy
+    environment:
+      - TZ=Europe/Dublin
+  sonarr:
+    container_name: sonarr
+    restart: unless-stopped
+    networks:
+      - caddy
+    image: ghcr.io/home-operations/sonarr:rolling@sha256:ca6c735014bdfb04ce043bf1323a068ab1d1228eea5bab8305ca0722df7baf78
+    user: "1000:1000"
+    ports:
+      - 8989:8989/tcp
+    volumes:
+      - /nvme/docker_appdata/sonarr:/config
+      - /tank/data:/data
+    environment:
+      - TZ=Europe/Dublin
