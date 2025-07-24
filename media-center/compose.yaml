@@ -49,7 +49,7 @@ services:
       - start
     container_name: jellyseerr
     user: "1000:1000"
-    image: fallenbagel/jellyseerr:2.7.2@sha256:c93519dfbfe0d516b653f9a721cb1d610cd9c89eab35ffa1a5e303f93857f9bc
+    image: fallenbagel/jellyseerr:2.7.2@sha256:98296861cf3caebe8ada72e5dbe2729fb10cdb2042d2b82e86065bf870418587
     ports:
       - 5055:5055/tcp
     restart: unless-stopped
