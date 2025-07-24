@@ -1,6 +1,6 @@
 services:
   grafana:
-    image: grafana/grafana-enterprise
+    image: grafana/grafana-enterprise:12.1.0@sha256:18c45f066285450e571918af905782cd75298e1929e95bbb8ecb58889d7c5cda
     container_name: grafana
     restart: unless-stopped
     user: "1000"
@@ -9,7 +9,7 @@ services:
     volumes:
       - /nvme/docker_appdata/monitoring/grafana:/var/lib/grafana
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus:v3.5.0@sha256:63805ebb8d2b3920190daf1cb14a60871b16fd38bed42b857a3182bc621f4996
     restart: unless-stopped
     container_name: prometheus
     user: "1000"
@@ -19,7 +19,7 @@ services:
     ports:
       - 9090:9090
   node-exporter:
-    image: prom/node-exporter:latest
+    image: prom/node-exporter:v1.9.1@sha256:d00a542e409ee618a4edc67da14dd48c5da66726bbd5537ab2af9c1dfc442c8a
     container_name: node-exporter
     user: "1000"
     ports:
@@ -34,7 +34,7 @@ services:
       - --path.rootfs=/host
     restart: unless-stopped
   cadvisor:
-    image: gcr.io/cadvisor/cadvisor:latest
+    image: gcr.io/cadvisor/cadvisor:cv0.52.0@sha256:505e2c61e74e5d5eae522d01e2e971e91b793bc405270315a64da806ba033640
     container_name: cadvisor
     restart: unless-stopped
     ports:
