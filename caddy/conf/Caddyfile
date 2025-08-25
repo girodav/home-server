@@ -130,6 +130,11 @@
     handle @scrutiny {
         reverse_proxy scrutiny-web:8080
     }
+
+    @copyparty host copyparty.{env.DOMAIN}
+    handle @copyparty {
+        reverse_proxy copyparty:3923
+    }
     
     # Default handler for other subdomains
     handle {

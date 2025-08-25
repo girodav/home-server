@@ -13,9 +13,10 @@ services:
       - paperless
   db:
     image: docker.io/library/postgres:17
+    user: 0:0
     restart: unless-stopped
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - /nvme/docker_appdata/paperless-ngx/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: paperless
       POSTGRES_USER: paperless
@@ -25,6 +26,7 @@ services:
   webserver:
     image: ghcr.io/paperless-ngx/paperless-ngx:2.17.1@sha256:ab72a0ab42a792228cdbe83342b99a48acd49f7890ae54b1ae8e04401fba24ee 
     restart: unless-stopped
+    user: 0:0
     container_name: paperless
     depends_on:
       - db
@@ -67,5 +69,4 @@ services:
     networks:
       - paperless
 volumes:
-  pgdata: null
   redisdata: null

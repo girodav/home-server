@@ -5,7 +5,6 @@ services:
   notifiarr:
     container_name: notifiarr
     restart: unless-stopped
-    user: "1000:1000"
     entrypoint:
       - /notifiarr
     image: golift/notifiarr:0.8.3
@@ -22,6 +21,7 @@ services:
     container_name: jellyfin
     restart: unless-stopped
     group_add:
+      - "44"
       - "105" # add to the render group for transcoding
     devices:
       - /dev/dri:/dev/dri
@@ -58,8 +58,8 @@ services:
   prowlarr:
     container_name: prowlarr
     restart: unless-stopped
+    user: root
     image: ghcr.io/home-operations/prowlarr:rolling@sha256:30062fde00bf3901770d02e4e255b3fa1afa320ae2ff5359473ff7599be7ebc8
-    user: "1000:1000"
     ports:
       - 9696:9696/tcp
     volumes:
@@ -72,7 +72,7 @@ services:
     container_name: radarr
     restart: unless-stopped
     image: ghcr.io/home-operations/radarr:rolling@sha256:aa84b8341e2b53281bcea4696427861e4ab02ab004cd76a1b3a76d77ea065ac5
-    user: "1000:1000"
+    user: root
     ports:
       - 7878:7878/tcp
     volumes:
@@ -84,8 +84,8 @@ services:
       - TZ=Europe/Dublin
   sabnzbd:
     container_name: sabnzbd
+    user: root
     image: ghcr.io/home-operations/sabnzbd:rolling@sha256:e3f27e50ee51f950d89ce888cb3c3c4e74b46b42751333ee008f906906cbf05b
-    user: "1000:1000"
     restart: unless-stopped
     ports:
       - 8080:8080/tcp
@@ -99,11 +99,11 @@ services:
       - TZ=Europe/Dublin
   sonarr:
     container_name: sonarr
+    user: root
     restart: unless-stopped
     networks:
       - caddy
     image: ghcr.io/home-operations/sonarr:rolling@sha256:ca6c735014bdfb04ce043bf1323a068ab1d1228eea5bab8305ca0722df7baf78
-    user: "1000:1000"
     ports:
       - 8989:8989/tcp
     volumes:
