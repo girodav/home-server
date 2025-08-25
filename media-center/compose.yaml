@@ -59,7 +59,7 @@ services:
     container_name: prowlarr
     restart: unless-stopped
     user: root
-    image: ghcr.io/home-operations/prowlarr:rolling@sha256:30062fde00bf3901770d02e4e255b3fa1afa320ae2ff5359473ff7599be7ebc8
+    image: ghcr.io/home-operations/prowlarr:rolling@sha256:47cede4c9e57c53af75b8b6e1382576ede241b9d847733ba449d723ca8cb51c8
     ports:
       - 9696:9696/tcp
     volumes:
