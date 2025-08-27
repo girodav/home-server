@@ -1,6 +1,6 @@
 
 # List your service directories here
-SERVICES = caddy media-center monitoring paperless-ngx scrutiny uhf-server
+SERVICES = caddy media-center uptime-kuma paperless-ngx scrutiny uhf-server
 
 .PHONY: up down restart help
 
