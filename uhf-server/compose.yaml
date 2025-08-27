@@ -3,6 +3,7 @@ services:
   uhf-server:
     image: solidpixel/uhf-server:uhf-1.4.0-ffmpeg7.1.1-d1
     container_name: uhf-server
+    user: 1000:1000
     restart: unless-stopped
     network_mode: bridge
     volumes:

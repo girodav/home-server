@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile.caddy
     container_name: caddy
+    user: 1000:1000
     restart: unless-stopped
     networks:
       - caddy

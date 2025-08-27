@@ -5,6 +5,7 @@ services:
   uptime-kuma:
     image: louislam/uptime-kuma:2.0.0-beta.3@sha256:0c699f39b1952652e809966618c731d7c37b11bcbd7bdc240f263e84f14e1786
     container_name: uptime-kuma
+    user: 1000:1000
     volumes:
       - $XDG_RUNTIME_DIR/docker.sock:/var/run/docker.sock:ro
       - /nvme/docker_appdata/uptime-kuma:/app/data
