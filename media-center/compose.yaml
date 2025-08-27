@@ -58,7 +58,6 @@ services:
   prowlarr:
     container_name: prowlarr
     restart: unless-stopped
-    user: root
     image: ghcr.io/home-operations/prowlarr:rolling@sha256:47cede4c9e57c53af75b8b6e1382576ede241b9d847733ba449d723ca8cb51c8
     ports:
       - 9696:9696/tcp
@@ -72,7 +71,6 @@ services:
     container_name: radarr
     restart: unless-stopped
     image: ghcr.io/home-operations/radarr:rolling@sha256:af67ce80302e21f7228e2da671943c48b27a25faf27e19c4fcb7ad33c1c0e3c0
-    user: root
     ports:
       - 7878:7878/tcp
     volumes:
@@ -84,7 +82,6 @@ services:
       - TZ=Europe/Dublin
   sabnzbd:
     container_name: sabnzbd
-    user: root
     image: ghcr.io/home-operations/sabnzbd:rolling@sha256:ecb57bd6257fbfbd9aee70d8ef3df8814b7270ae793fd1f44219ae73cacd519a
     restart: unless-stopped
     ports:
@@ -99,7 +96,6 @@ services:
       - TZ=Europe/Dublin
   sonarr:
     container_name: sonarr
-    user: root
     restart: unless-stopped
     networks:
       - caddy
