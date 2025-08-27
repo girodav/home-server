@@ -6,6 +6,7 @@ networks:
 services:
   broker:
     image: docker.io/library/redis:8
+    user: 1000:1000
     restart: unless-stopped
     volumes:
       - redisdata:/data
@@ -54,6 +55,7 @@ services:
       PAPERLESS_TIKA_ENDPOINT: http://tika:9998
   gotenberg:
     image: docker.io/gotenberg/gotenberg:8.22
+    user: 1000:1000
     restart: unless-stopped
     # The gotenberg chromium route is used to convert .eml files. We do not
     # want to allow external content like tracking pixels or even javascript.
@@ -65,6 +67,7 @@ services:
       - paperless
   tika:
     image: docker.io/apache/tika:latest
+    user: 1000:1000
     restart: unless-stopped
     networks:
       - paperless

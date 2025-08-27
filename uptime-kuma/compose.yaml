@@ -7,7 +7,6 @@ services:
     container_name: uptime-kuma
     user: 1000:1000
     volumes:
-      - $XDG_RUNTIME_DIR/docker.sock:/var/run/docker.sock:ro
       - /nvme/docker_appdata/uptime-kuma:/app/data
     security_opt:
       - no-new-privileges:true
