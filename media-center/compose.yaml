@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
     group_add:
       - "44"
-      - "105" # add to the render group for transcoding
+      - "992" # add to the render group for transcoding
     devices:
       - /dev/dri:/dev/dri
     image: ghcr.io/jellyfin/jellyfin:10.10

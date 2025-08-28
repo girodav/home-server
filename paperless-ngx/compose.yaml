@@ -6,7 +6,6 @@ networks:
 services:
   broker:
     image: docker.io/library/redis:8
-    user: 1000:1000
     restart: unless-stopped
     volumes:
       - redisdata:/data
