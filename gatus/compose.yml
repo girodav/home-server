@@ -2,6 +2,7 @@ services:
   gatus:
     image: twinproduction/gatus:latest
     container_name: gatus
+    restart: unless-stopped
     user: 1000:1000
     ports:
       - 8082:8080
