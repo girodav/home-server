@@ -1,6 +1,63 @@
+default-alerting: &alerting
+  alerts:
+    - type: discord
+      description: "healthcheck failed"
+      send-on-resolved: true
+
+default-endpoint: &defaults
+  interval: 30s
+  conditions:
+    - "[STATUS] == 200"
+
+skip-invalid-config-update: true
+
+alerting:
+  discord:
+    webhook-url: "${DISCORD_WEBHOOK}"
+
+ui:
+  default-sort-by: group
+
 endpoints:
-  - name: example
-    url: https://example.org
-    interval: 30s
-    conditions:
-      - "[STATUS] == 200"
+  - name: Jellyfin
+    group: Media
+    url: https://jellyfin.${DOMAIN}
+    <<: [*alerting, *defaults]
+
+  - name: Jellyseerr
+    group: Media
+    url: https://jellyseerr.${DOMAIN}
+    <<: [*alerting, *defaults]
+
+  - name: Radarr
+    group: Media
+    url: https://radarr.${DOMAIN}
+    <<: [*alerting, *defaults]
+
+  - name: Sonarr
+    group: Media
+    url: https://sonarr.${DOMAIN}
+    <<: [*alerting, *defaults]
+
+  - name: Prowlarr
+    group: Media
+    url: https://prowlarr.${DOMAIN}
+    <<: [*alerting, *defaults]
+  
+  - name: Sabnzbd
+    group: Media
+    url: https://sabnzbd.${DOMAIN}
+    <<: [*alerting, *defaults]
+  
+  - name: Paperless
+    group: Documents
+    url: https://paperless.${DOMAIN}
+    <<: [*alerting, *defaults]
+
+external-endpoints:
+  - name: Tailscale
+    group: Network
+    token: "${TAILSCALE_TOKEN}"
+    heartbeat:
+      interval: 5m
+    <<: *alerting
