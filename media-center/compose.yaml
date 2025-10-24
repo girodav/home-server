@@ -87,7 +87,7 @@ services:
       - TZ=Europe/Dublin
   sabnzbd:
     container_name: sabnzbd
-    image: ghcr.io/home-operations/sabnzbd:rolling@sha256:ecb57bd6257fbfbd9aee70d8ef3df8814b7270ae793fd1f44219ae73cacd519a
+    image: ghcr.io/home-operations/sabnzbd:rolling@sha256:da57e01cdebc547852b6df85c8df8c0e4d87792742c7608c5590dc653b184e8c
     user: 1000:1000
     restart: unless-stopped
     ports:
