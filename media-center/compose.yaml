@@ -106,7 +106,7 @@ services:
     user: 1000:1000
     networks:
       - caddy
-    image: ghcr.io/home-operations/sonarr:rolling@sha256:ca6c735014bdfb04ce043bf1323a068ab1d1228eea5bab8305ca0722df7baf78
+    image: ghcr.io/home-operations/sonarr:rolling@sha256:0a1b8f5cb5b072f7ad8c6ff64a25dc512115d1a114ecf19a58a3b4f870207ddd
     ports:
       - 8989:8989/tcp
     volumes:
