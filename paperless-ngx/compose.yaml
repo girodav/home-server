@@ -24,7 +24,7 @@ services:
     networks:
       - paperless
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:2.19.6@sha256:719a4e4c4314b417646b00e58bfbfbe55e4cb59017a2dec1533e96d8deb66ec1 
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.20.8@sha256:e231ec11a1907bfdf172b4f120b4ef1994feb71e6cc624e8b88c53e2da3dfb62 
     restart: unless-stopped
     user: 1000:1000
     container_name: paperless
