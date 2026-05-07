@@ -6,7 +6,7 @@ networks:
 
 services:
   influxdb:
-    image: influxdb:2.7
+    image: influxdb:2.9
     user: 1000:1000
     ports:
       - '8086:8086'
