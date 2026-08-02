@@ -74,7 +74,7 @@ services:
   radarr:
     container_name: radarr
     restart: unless-stopped
-    image: ghcr.io/home-operations/radarr:rolling@sha256:73fbdba72dcde5fec16264e63a9daba7829b5c2806a75615463a67117b100de3
+    image: ghcr.io/home-operations/radarr:rolling@sha256:d380d69c729b4116d224ebb0b4909ff22395fc7b78e8a1976c43ae09430ffc5a
     user: 1000:1000
     ports:
       - 7878:7878/tcp
