@@ -11,8 +11,9 @@ PUID=1000
 PGID=1000
 # ─────────────────────────────────────────────────────────────────────────────
 
-APPDATA_ROOT="/${APPDATA_POOL}/${APPDATA_DATASET}"
-DATA_ROOT="/${DATA_POOL}/data"
+MOUNT_PREFIX="/mnt"
+APPDATA_ROOT="${MOUNT_PREFIX}/${APPDATA_POOL}/${APPDATA_DATASET}"
+DATA_ROOT="${MOUNT_PREFIX}/${DATA_POOL}/data"
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DOCO_CD_DIR="${REPO_ROOT}/apps/doco-cd"
@@ -28,8 +29,6 @@ datasets=(
   "${APPDATA_POOL}/${APPDATA_DATASET}/qbittorrent"
   "${APPDATA_POOL}/${APPDATA_DATASET}/qui"
   "${DATA_POOL}/data"
-  "${DATA_POOL}/data/media"
-  "${DATA_POOL}/data/torrents"
 )
 
 echo "Creating ZFS datasets..."

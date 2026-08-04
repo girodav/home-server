@@ -58,7 +58,7 @@ bash scripts/setup-truenas.sh
 ### 3. Place WireGuard config
 
 ```
-/fast/apps/qbittorrent/wireguard/wg0.conf
+/mnt/fast/apps/qbittorrent/wireguard/wg0.conf
 ```
 
 ### 4. Bootstrap doco-cd (one-time)
