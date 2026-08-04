@@ -2,8 +2,6 @@ volumes:
   doco-cd-data:
 
 secrets:
-  git_token:
-    file: git_token.txt   # GitHub PAT (repo read scope) — never commit this
   op_token:
     file: op_token.txt    # 1Password service account token — never commit this
 
@@ -15,7 +13,6 @@ services:
     environment:
       TZ: ${TZ:-Europe/Dublin}
       LOG_LEVEL: info
-      GIT_ACCESS_TOKEN_FILE: /run/secrets/git_token
       SECRET_PROVIDER: 1password
       SECRET_PROVIDER_ACCESS_TOKEN_FILE: /run/secrets/op_token
       SECRET_PROVIDER_CACHE_ENABLED: true
@@ -26,7 +23,6 @@ services:
           reference: main
           interval: 180
     secrets:
-      - git_token
       - op_token
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

@@ -7,17 +7,17 @@ GitOps home server managed with [doco-cd](https://github.com/kimdre/doco-cd). Se
 ```
 apps/
   doco-cd/        # GitOps CD agent
-  media-center/   # Jellyfin, Sonarr, Radarr, Prowlarr, Seerr, qBittorrent+VPN
+  media-center/   # Jellyfin, Sonarr, Radarr, Prowlarr, Seerr, qBittorrent+VPN, qui
 scripts/
   setup-truenas.sh
 ```
 
 ## How secrets work
 
-- Non-sensitive config (paths, timezone, etc.) is written to a gitignored `.env` by the setup script
+- Non-sensitive config (paths, timezone, etc.) is committed to git in each service's `.env`
 - Actual secrets are stored in 1Password and declared in `.doco-cd.yaml` as `op://` URIs
 - doco-cd fetches and injects them at deploy time via a 1Password service account
-- The only files that live on disk outside the repo are `git_token.txt` and `op_token.txt` inside `apps/doco-cd/`
+- The only file that lives on disk outside the repo is `op_token.txt` inside `apps/doco-cd/`
 
 ## Adding a secret
 
@@ -32,12 +32,9 @@ scripts/
 
 ## First-time setup (TrueNAS SCALE)
 
-### 1. Create bootstrap secret files
+### 1. Create bootstrap secret file
 
 ```sh
-# GitHub PAT with repo read scope
-echo "ghp_xxxx" > apps/doco-cd/git_token.txt
-
 # 1Password service account token (ops_xxxx)
 # Create at: https://developer.1password.com/docs/service-accounts/
 echo "ops_xxxx" > apps/doco-cd/op_token.txt
@@ -53,17 +50,15 @@ bash scripts/setup-truenas.sh
 
 | Variable | Description |
 |---|---|
-| `APPDATA_POOL` | ZFS pool for app config (default: `nvme`) |
+| `APPDATA_POOL` | ZFS pool for app config (default: `fast`) |
 | `APPDATA_DATASET` | Dataset name under the pool (default: `apps`) |
 | `DATA_POOL` | ZFS pool for media and downloads (default: `tank`) |
 | `PUID` / `PGID` | UID/GID containers run as (default: `1000`) |
-| `TZ` | Timezone (default: `Europe/Dublin`) |
-| `VPN_PROVIDER` | VPN provider for qBittorrent (default: `protonvpn`) |
 
 ### 3. Place WireGuard config
 
 ```
-/nvme/apps/qbittorrent/wireguard/wg0.conf
+/fast/apps/qbittorrent/wireguard/wg0.conf
 ```
 
 ### 4. Bootstrap doco-cd (one-time)

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ── Configuration ────────────────────────────────────────────────────────────
-APPDATA_POOL="nvme"
+APPDATA_POOL="fast"
 APPDATA_DATASET="apps"
 
 DATA_POOL="tank"
@@ -26,6 +26,7 @@ datasets=(
   "${APPDATA_POOL}/${APPDATA_DATASET}/radarr"
   "${APPDATA_POOL}/${APPDATA_DATASET}/sonarr"
   "${APPDATA_POOL}/${APPDATA_DATASET}/qbittorrent"
+  "${APPDATA_POOL}/${APPDATA_DATASET}/qui"
   "${DATA_POOL}/data"
   "${DATA_POOL}/data/media"
   "${DATA_POOL}/data/torrents"
@@ -48,13 +49,6 @@ chown -R "${PUID}:${PGID}" "${DATA_ROOT}"
 
 # ── Check bootstrap secret files ──────────────────────────────────────────────
 missing=0
-
-if [[ ! -f "${DOCO_CD_DIR}/git_token.txt" ]]; then
-  echo ""
-  echo "Missing: ${DOCO_CD_DIR}/git_token.txt"
-  echo "  Create a GitHub PAT (repo read scope) and write it to that file."
-  missing=1
-fi
 
 if [[ ! -f "${DOCO_CD_DIR}/op_token.txt" ]]; then
   echo ""
