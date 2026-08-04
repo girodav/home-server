@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     entrypoint:
       - /notifiarr
-    image: golift/notifiarr:0.9.1
+    image: golift/notifiarr:v0.9.5
     networks:
       - caddy
     ports:
