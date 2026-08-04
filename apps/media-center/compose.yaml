@@ -39,6 +39,18 @@ services:
       - TZ=${TZ}
       - LOG_LEVEL=info
 
+  profilarr:
+    container_name: profilarr
+    image: ghcr.io/santiagosayshey/profilarr:latest@sha256:5c7203b8af08ee9105e60eb80cc2d558bb25dc5fc82e5aa00db4577c54c70d6a
+    user: "${PUID}:${PGID}"
+    restart: unless-stopped
+    ports:
+      - 6868:6868/tcp
+    volumes:
+      - ${APPDATA_ROOT}/profilarr:/config
+    environment:
+      - TZ=${TZ}
+
   prowlarr:
     container_name: prowlarr
     restart: unless-stopped

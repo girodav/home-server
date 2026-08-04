@@ -29,6 +29,7 @@ datasets=(
   "${APPDATA_POOL}/${APPDATA_DATASET}/sonarr"
   "${APPDATA_POOL}/${APPDATA_DATASET}/qbittorrent"
   "${APPDATA_POOL}/${APPDATA_DATASET}/qui"
+  "${APPDATA_POOL}/${APPDATA_DATASET}/profilarr"
   "${APPDATA_POOL}/downloads"
   "${DATA_POOL}/data"
 )
