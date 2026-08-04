@@ -62,6 +62,7 @@ services:
     volumes:
       - ${APPDATA_ROOT}/radarr:/config
       - ${DATA_ROOT}:/data
+      - ${DOWNLOADS_ROOT}:/data/downloads
 
     environment:
       - TZ=${TZ}
@@ -77,6 +78,7 @@ services:
     volumes:
       - ${APPDATA_ROOT}/sonarr:/config
       - ${DATA_ROOT}:/data
+      - ${DOWNLOADS_ROOT}:/data/downloads
     environment:
       - TZ=${TZ}
 
@@ -89,7 +91,7 @@ services:
       - 7476:7476/tcp
     volumes:
       - ${APPDATA_ROOT}/qui:/config
-      - ${DATA_ROOT}/torrents:/data/torrents
+      - ${DOWNLOADS_ROOT}:/data/downloads
     environment:
       - TZ=${TZ}
 
@@ -106,6 +108,7 @@ services:
       - 8080:8080/tcp
     volumes:
       - ${APPDATA_ROOT}/qbittorrent:/config
+      - ${DOWNLOADS_ROOT}:/data/downloads
       - ${DATA_ROOT}/torrents:/data/torrents
 
     environment:

@@ -13,6 +13,7 @@ PGID=1000
 
 MOUNT_PREFIX="/mnt"
 APPDATA_ROOT="${MOUNT_PREFIX}/${APPDATA_POOL}/${APPDATA_DATASET}"
+DOWNLOADS_ROOT="${MOUNT_PREFIX}/${APPDATA_POOL}/downloads"
 DATA_ROOT="${MOUNT_PREFIX}/${DATA_POOL}/data"
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -28,6 +29,7 @@ datasets=(
   "${APPDATA_POOL}/${APPDATA_DATASET}/sonarr"
   "${APPDATA_POOL}/${APPDATA_DATASET}/qbittorrent"
   "${APPDATA_POOL}/${APPDATA_DATASET}/qui"
+  "${APPDATA_POOL}/downloads"
   "${DATA_POOL}/data"
 )
 
@@ -44,6 +46,13 @@ done
 # ── Set ownership ─────────────────────────────────────────────────────────────
 echo "Setting ownership to ${PUID}:${PGID}..."
 chown -R "${PUID}:${PGID}" "${APPDATA_ROOT}"
+chown -R "${PUID}:${PGID}" "${DOWNLOADS_ROOT}"
+chown -R "${PUID}:${PGID}" "${DATA_ROOT}"
+
+echo "Creating media folders..."
+mkdir -p "${DATA_ROOT}/media/movies"
+mkdir -p "${DATA_ROOT}/media/tv"
+mkdir -p "${DATA_ROOT}/torrents"
 chown -R "${PUID}:${PGID}" "${DATA_ROOT}"
 
 # ── Check bootstrap secret files ──────────────────────────────────────────────
