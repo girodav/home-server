@@ -4,8 +4,8 @@ services:
     user: "${PUID}:${PGID}"
     restart: unless-stopped
     group_add:
-      - "44"
-      - "992"
+      - "44" #video group
+      - "107" #render group
     devices:
       - /dev/dri:/dev/dri
     image: ghcr.io/jellyfin/jellyfin:10.11@sha256:45f648c382a0c8b552582fcea40e95cb17c5d475473a891cba0eb7523fb92112
