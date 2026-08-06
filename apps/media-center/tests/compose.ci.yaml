@@ -3,6 +3,10 @@ services:
     devices: []
     group_add: []
 
+  profilarr:
+    healthcheck:
+      disable: true
+
   qbittorrent:
     environment:
       VPN_ENABLED: "false"
