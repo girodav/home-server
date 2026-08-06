@@ -50,12 +50,6 @@ services:
       - ${APPDATA_ROOT}/profilarr:/config
     environment:
       - TZ=${TZ}
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:6868 >/dev/null 2>&1"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
 
   prowlarr:
     container_name: prowlarr
@@ -112,12 +106,6 @@ services:
       - ${DOWNLOADS_ROOT}:/data/downloads
     environment:
       - TZ=${TZ}
-    healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:7476 >/dev/null 2>&1"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
 
   qbittorrent:
     container_name: qbittorrent

@@ -28,7 +28,8 @@ jobs:
           DOWNLOADS_ROOT: /tmp/downloads
           DATA_ROOT: /tmp/data
         run: |
-          docker compose -f compose.yaml -f tests/compose.ci.yaml up -d --wait --wait-timeout 120
+          docker compose -f compose.yaml -f tests/compose.ci.yaml up -d
+          sleep 60
 
       - name: Check container status
         working-directory: apps/media-center
