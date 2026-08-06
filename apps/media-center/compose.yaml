@@ -54,7 +54,7 @@ services:
   prowlarr:
     container_name: prowlarr
     restart: unless-stopped
-    image: ghcr.io/home-operations/prowlarr:rolling@sha256:f2db7fc93c2c26476de74695b565bfced0f39255cdba30fedf6d1ec45789f818
+    image: ghcr.io/home-operations/prowlarr:rolling@sha256:ce5d6bdd5be6529f503df77aa9d2bad20239031d7c660406e8fb1c6d621dd020
     user: "${PUID}:${PGID}"
     ports:
       - 9696:9696/tcp
