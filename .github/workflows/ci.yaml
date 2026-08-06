@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate compose
+        working-directory: apps/media-center
+        run: docker compose config --quiet
+
+      - name: Create stub directories
+        run: |
+          mkdir -p /tmp/apps/{jellyfin,seerr,profilarr,prowlarr,radarr,sonarr,qui,qbittorrent}
+          mkdir -p /tmp/downloads
+          mkdir -p /tmp/data/{media/movies,media/tv,torrents}
+
+      - name: Start containers
+        working-directory: apps/media-center
+        env:
+          APPDATA_ROOT: /tmp/apps
+          DOWNLOADS_ROOT: /tmp/downloads
+          DATA_ROOT: /tmp/data
+        run: |
+          docker compose -f compose.yaml -f tests/compose.ci.yaml up -d --wait --wait-timeout 60
+
+      - name: Check container status
+        working-directory: apps/media-center
+        run: |
+          docker compose ps
+          docker compose ps --format json | jq -e '[.[] | select(.State != "running")] | length == 0'

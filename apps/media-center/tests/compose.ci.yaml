@@ -1,0 +1,8 @@
+services:
+  jellyfin:
+    devices: []
+    group_add: []
+
+  qbittorrent:
+    environment:
+      VPN_ENABLED: "false"
