@@ -1,0 +1,136 @@
+services:
+  jellyfin:
+    container_name: jellyfin
+    user: "${PUID}:${PGID}"
+    restart: unless-stopped
+    group_add:
+      - "44" #video group
+      - "107" #render group
+    devices:
+      - /dev/dri:/dev/dri
+    image: ghcr.io/jellyfin/jellyfin:10.11@sha256:45f648c382a0c8b552582fcea40e95cb17c5d475473a891cba0eb7523fb92112
+    ports:
+      - 1900:1900/udp
+      - 7359:7359/udp
+      - 8096:8096/tcp
+      - 8920:8920/tcp
+    environment:
+      - JELLYFIN_DATA_DIR=/config/data
+      - JELLYFIN_CONFIG_DIR=/config
+      - JELLYFIN_LOG_DIR=/config/log
+      - JELLYFIN_CACHE_DIR=/config/cache
+      - TZ=${TZ}
+    volumes:
+      - ${APPDATA_ROOT}/jellyfin:/config
+      - ${DATA_ROOT}/media:/data/media
+
+
+  seerr:
+    container_name: seerr
+    image: ghcr.io/seerr-team/seerr:latest@sha256:f4768de5f616248d723e05891f3345a1402123775d03bf0890dbfedc0831bda1
+    user: "${PUID}:${PGID}"
+    ports:
+      - 5055:5055/tcp
+    restart: unless-stopped
+
+    volumes:
+      - ${APPDATA_ROOT}/seerr:/app/config
+    environment:
+      - TZ=${TZ}
+      - LOG_LEVEL=info
+
+  profilarr:
+    container_name: profilarr
+    image: ghcr.io/santiagosayshey/profilarr:latest@sha256:5c7203b8af08ee9105e60eb80cc2d558bb25dc5fc82e5aa00db4577c54c70d6a
+    user: "${PUID}:${PGID}"
+    restart: unless-stopped
+    ports:
+      - 6868:6868/tcp
+    volumes:
+      - ${APPDATA_ROOT}/profilarr:/config
+    environment:
+      - TZ=${TZ}
+
+  prowlarr:
+    container_name: prowlarr
+    restart: unless-stopped
+    image: ghcr.io/home-operations/prowlarr:rolling@sha256:ce5d6bdd5be6529f503df77aa9d2bad20239031d7c660406e8fb1c6d621dd020
+    user: "${PUID}:${PGID}"
+    ports:
+      - 9696:9696/tcp
+    volumes:
+      - ${APPDATA_ROOT}/prowlarr:/config
+
+    environment:
+      - TZ=${TZ}
+
+  radarr:
+    container_name: radarr
+    restart: unless-stopped
+    image: ghcr.io/home-operations/radarr:rolling@sha256:260469d707617f4b5be1cd11a40be7e4889c63c5e7cdbc6a429626dc05863b6b
+    user: "${PUID}:${PGID}"
+    ports:
+      - 7878:7878/tcp
+    volumes:
+      - ${APPDATA_ROOT}/radarr:/config
+      - ${DATA_ROOT}:/data
+      - ${DOWNLOADS_ROOT}:/data/downloads
+
+    environment:
+      - TZ=${TZ}
+
+  sonarr:
+    container_name: sonarr
+    restart: unless-stopped
+    user: "${PUID}:${PGID}"
+
+    image: ghcr.io/home-operations/sonarr:rolling@sha256:01db3e6a923f6e0f3a217baa94b4660cf2f9b45d4166b2fc8c20c67c5221cb78
+    ports:
+      - 8989:8989/tcp
+    volumes:
+      - ${APPDATA_ROOT}/sonarr:/config
+      - ${DATA_ROOT}:/data
+      - ${DOWNLOADS_ROOT}:/data/downloads
+    environment:
+      - TZ=${TZ}
+
+  qui:
+    container_name: qui
+    image: ghcr.io/autobrr/qui:latest@sha256:3285c52f0258645d1d5a1684e25596c7355ef525363f0f9464d1c7b2cad14be8
+    user: "${PUID}:${PGID}"
+    restart: unless-stopped
+    ports:
+      - 7476:7476/tcp
+    volumes:
+      - ${APPDATA_ROOT}/qui:/config
+      - ${DOWNLOADS_ROOT}:/data/downloads
+    environment:
+      - TZ=${TZ}
+
+  qbittorrent:
+    container_name: qbittorrent
+    image: ghcr.io/hotio/qbittorrent:release@sha256:fbff489ebe410ad4be3e86294298f40ccefb2cb410ccf2847f7c5819171dfb56
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=1
+    ports:
+      - 8080:8080/tcp
+    volumes:
+      - ${APPDATA_ROOT}/qbittorrent:/config
+      - ${DOWNLOADS_ROOT}:/data/downloads
+      - ${DATA_ROOT}/torrents:/data/torrents
+
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - UMASK=002
+      - VPN_ENABLED=true
+      - VPN_CONF=wg0
+      - VPN_PROVIDER=protonvpn
+      - VPN_LAN_NETWORK=${VPN_LAN_NETWORK:-192.168.1.0/24}
+      - VPN_LAN_LEAK_ENABLED=false
+      - PRIVOXY_ENABLED=false

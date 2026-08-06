@@ -1,0 +1,7 @@
+name: dozzle
+working_dir: apps/dozzle
+---
+name: media-center
+working_dir: apps/media-center
+external_secrets:
+  VPN_LAN_NETWORK: op://home-server/qbittorrent/vpn_lan_network
