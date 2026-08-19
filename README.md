@@ -1,10 +1,6 @@
 # 🏠 home-server
 
-Self-hosted services on TrueNAS SCALE, deployed via GitOps with [arcane](https://github.com/habroptilus/arcane). Secrets managed with 1Password.
-
-## 🔐 Secrets
-
-Store secrets in 1Password and inject them via your arcane config.
+Self-hosted services on TrueNAS SCALE, deployed via GitOps with [arcane](https://github.com/habroptilus/arcane).
 
 ## 🚀 First-time setup
 
