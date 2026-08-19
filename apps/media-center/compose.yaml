@@ -84,7 +84,7 @@ services:
     restart: unless-stopped
     user: "${PUID}:${PGID}"
 
-    image: ghcr.io/home-operations/sonarr:rolling@sha256:01db3e6a923f6e0f3a217baa94b4660cf2f9b45d4166b2fc8c20c67c5221cb78
+    image: ghcr.io/home-operations/sonarr:rolling@sha256:2fef93accb445aeb1773e454825ac903f7d66d9addfe045d56fff69ba8181c82
     ports:
       - 8989:8989/tcp
     volumes:
@@ -96,7 +96,7 @@ services:
 
   qui:
     container_name: qui
-    image: ghcr.io/autobrr/qui:latest@sha256:3285c52f0258645d1d5a1684e25596c7355ef525363f0f9464d1c7b2cad14be8
+    image: ghcr.io/autobrr/qui:latest@sha256:9969375e7375194b89eebc490bd16586b6ff4ff403042f6c4f0585eb0e775eaf
     user: "${PUID}:${PGID}"
     restart: unless-stopped
     ports:
@@ -109,7 +109,7 @@ services:
 
   qbittorrent:
     container_name: qbittorrent
-    image: ghcr.io/hotio/qbittorrent:release@sha256:fbff489ebe410ad4be3e86294298f40ccefb2cb410ccf2847f7c5819171dfb56
+    image: ghcr.io/hotio/qbittorrent:release@sha256:b7a9d5237da429627dde921e58c0c1058262c960681e85c84435de3e9bc52691
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
