@@ -16,9 +16,6 @@ APPDATA_ROOT="${MOUNT_PREFIX}/${APPDATA_POOL}/${APPDATA_DATASET}"
 DOWNLOADS_ROOT="${MOUNT_PREFIX}/${APPDATA_POOL}/downloads"
 DATA_ROOT="${MOUNT_PREFIX}/${DATA_POOL}/data"
 
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-DOCO_CD_DIR="${REPO_ROOT}/apps/doco-cd"
-
 # ── Create ZFS datasets ───────────────────────────────────────────────────────
 datasets=(
   "${APPDATA_POOL}/${APPDATA_DATASET}"
@@ -48,7 +45,6 @@ done
 echo "Setting ownership to ${PUID}:${PGID}..."
 chown -R "${PUID}:${PGID}" "${APPDATA_ROOT}"
 chown -R "${PUID}:${PGID}" "${DOWNLOADS_ROOT}"
-chown -R "${PUID}:${PGID}" "${DATA_ROOT}"
 
 echo "Creating media folders..."
 mkdir -p "${DATA_ROOT}/media/movies"
@@ -56,25 +52,6 @@ mkdir -p "${DATA_ROOT}/media/tv"
 mkdir -p "${DATA_ROOT}/torrents"
 chown -R "${PUID}:${PGID}" "${DATA_ROOT}"
 
-# ── Check bootstrap secret files ──────────────────────────────────────────────
-missing=0
-
-if [[ ! -f "${DOCO_CD_DIR}/op_token.txt" ]]; then
-  echo ""
-  echo "Missing: ${DOCO_CD_DIR}/op_token.txt"
-  echo "  Create a 1Password service account token and write it to that file."
-  missing=1
-fi
-
 echo ""
-if [[ "${missing}" -eq 0 ]]; then
-  echo "Done. Bootstrap doco-cd with:"
-  echo "  cd ${DOCO_CD_DIR} && docker compose up -d"
-else
-  echo "Fill in the missing files above, then bootstrap doco-cd with:"
-  echo "  cd ${DOCO_CD_DIR} && docker compose up -d"
-fi
-
-echo ""
-echo "Place your WireGuard config at:"
+echo "Done. Place your WireGuard config at:"
 echo "  ${APPDATA_ROOT}/qbittorrent/wireguard/wg0.conf"
