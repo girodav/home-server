@@ -1,6 +1,6 @@
 # 🏠 home-server
 
-Self-hosted services on TrueNAS SCALE, deployed via GitOps with [arcane](https://github.com/habroptilus/arcane).
+Self-hosted services on TrueNAS SCALE, deployed via GitOps with [arcane](https://getarcane.app/).
 
 ## 🚀 First-time setup
 
