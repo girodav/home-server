@@ -109,7 +109,7 @@ services:
 
   qbittorrent:
     container_name: qbittorrent
-    image: ghcr.io/hotio/qbittorrent:release@sha256:6d55650a450d23f1798f7eef95c97db6d355c24789622a1d586489d8881f57f9
+    image: ghcr.io/hotio/qbittorrent:release@sha256:b1a787b996230b6a19ea5501215d3a3b6a73e00c062f2c8e19a69240e41d8407
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
