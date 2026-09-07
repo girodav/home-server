@@ -103,6 +103,7 @@ services:
       - 7476:7476/tcp
     volumes:
       - ${APPDATA_ROOT}/qui:/config
+      - ${DATA_ROOT}:/data
       - ${DOWNLOADS_ROOT}:/data/downloads
     environment:
       - TZ=${TZ}
